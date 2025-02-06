@@ -31,7 +31,12 @@ def create_account():
 @app.route('/accounts', methods=['GET'])
 def get_accounts():
     accounts = Account.query.all()
-    return jsonify([{'id': acc.id, 'name': acc.name, 'account_type': acc.account_type, 'balance': acc.balance} for acc in accounts])
+    return jsonify([{
+        'id': acc.id,
+          'name': acc.name,
+            'account_type': acc.account_type,
+              'balance': acc.balance
+              }for acc in accounts])
 
 @app.route('/create_transaction', methods=['POST'])
 def create_transaction():
@@ -50,18 +55,33 @@ def create_transaction():
 @app.route('/transactions', methods=['GET'])
 def get_transactions():
     transactions = Transaction.query.all()
-    return jsonify([{'id': txn.id, 'account_id': txn.account_id, 'amount': txn.amount, 'transaction_type': txn.transaction_type} for txn in transactions])
+    return jsonify([{
+        'id': txn.id,
+          'account_id': txn.account_id,
+            'amount': txn.amount,
+              'transaction_type': txn.transaction_type
+              } for txn in transactions])
 
-@app.route('/search_transactions', methods=['GET'])
+@app.route('/search_transaction', methods=['GET'])
 def search_transactions():
     account_id = request.args.get('account_id')
     transactions = Transaction.query.filter_by(account_id=account_id).all()
-    return jsonify([{'id': txn.id, 'account_id': txn.account_id, 'amount': txn.amount, 'transaction_type': txn.transaction_type} for txn in transactions])
+    return jsonify([{
+        'id': txn.id,
+          'account_id': txn.account_id,
+            'amount': txn.amount,
+              'transaction_type': txn.transaction_type
+              } for txn in transactions])
 
 @app.route('/top_customers', methods=['GET'])
 def top_customers():
     top_accounts = Account.query.order_by(Account.balance.desc()).limit(5).all()
-    return jsonify([{'id': acc.id, 'name': acc.name, 'balance': acc.balance} for acc in top_accounts])
+    return jsonify([{
+        'id': acc.id,
+          'name': acc.name,
+            'balance': acc.balance
+         }
+          for acc in top_accounts])
 
 if __name__ == '__main__':
     with app.app_context():
